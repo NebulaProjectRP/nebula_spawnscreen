@@ -248,9 +248,3 @@ hook.Add("RenderScene", "PlaceHolder", function()
     SPAWN = vgui.Create("nebula.spawner")
     hook.Remove("RenderScene", "PlaceHolder")
 end)
-
-if IsValid(SPAWN) then
-    SPAWN:Remove()
-end
-
-SPAWN = vgui.Create("nebula.spawner")

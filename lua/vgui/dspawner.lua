@@ -7,6 +7,10 @@ local rendered = false
 local id = 1
 
 function PANEL:Init()
+    if (LocalPlayer():IsDueling()) then
+        self:Remove()
+        return
+    end
     SPAWN = self
     self:SetSize(ScrW(), ScrH())
     self:SetTitle("")
@@ -108,6 +112,13 @@ function PANEL:DrawView(k, v, wide, correctWide, h, uvGap)
     })
     if (self.ViewAlpha > 0) then
         self.ViewAlpha = self.ViewAlpha - FrameTime() * 125
+    end
+end
+
+function PANEL:Think()
+    if LocalPlayer():IsDueling() then
+        self:Remove()
+        return
     end
 end
 

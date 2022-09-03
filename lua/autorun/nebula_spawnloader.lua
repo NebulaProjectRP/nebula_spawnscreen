@@ -1,4 +1,4 @@
-MsgN("?")
+
 if SERVER then
     util.AddNetworkString("Nebula.Spawn:Start")
     util.AddNetworkString("Nebula.Spawn:Request")
@@ -62,6 +62,11 @@ net.Receive("Nebula.Spawn:Start", function(l, ply)
             net.SendPVS(ply:GetPos())
         end)
 
+        if not ply.fullinit then
+            ply.fullinit = true
+            hook.Run("OnPlayerStart", ply)
+        end
+
         timer.Simple(3, function()
             if (ply._permaWeapons) then
                 for k, v in pairs(ply._permaWeapons) do
@@ -103,7 +108,7 @@ hook.Add("PlayerSay", "Nebula.SAVER", function(ply, text)
 end)
 
 hook.Add("PlayerSpawn", "SelectNewSpawn", function(ply)
-    if (not ply:isArrested() and ply._completedSpawn) then
+    if (not ply:isArrested() and not ply:InArena() and not ply:IsDueling() and ply._completedSpawn) then
         net.Start("Nebula.Spawn:Request")
         net.Send(ply)
     end
